@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient, InMemoryCache } from 'apollo-client-preset';
-import { createHttpLink } from 'apollo-link-http';
+import { HttpLink } from 'apollo-link-http';
 import './App.css';
 import Contacts from './Contacts';
 
 const client = new ApolloClient({
-  link: createHttpLink(),
+  link: new HttpLink({ uri: "http://localhost:4000/graphql" }),
   cache: new InMemoryCache()
 });
 
