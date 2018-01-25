@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { contactsListQuery } from './Contacts';
 
 class AddContact extends Component {
   state = {
@@ -9,28 +10,35 @@ class AddContact extends Component {
   };
 
   handleSave = ({ mutate }) => {
-    const { firstName, lastName } =  this.state;
+    const {firstName, lastName } = this.state;
     this.props.mutate({
-      variables: {firstName, lastName}
+      variables: {firstName, lastName},
+      update: (store, { data: {addContact }}) => {
+        const data = store.readQuery({ query: contactsListQuery });
+        data.contacts.push(addContact);
+        store.writeQuery({ query: contactsListQuery, data});
+      }
     })
-    .then( res => this.setState({
-      firstName: '',
-      lastName: ''
-    }))
+    .then( res => {
+      this.setState({
+        firstName: '',
+        lastName: ''
+      });
+    });
   }
-  
+
   render() {
     return (
       <div>
         <input
-          value={ this.state.firstName }
+          value={this.state.firstName}
           placeholder='Fist name'
           onChange={(e) => this.setState(this.setState({ firstName: e.target.value }))}
         />
         <input
-          value={ this.state.lastName }
+          value={this.state.lastName}
           placeholder='Last name'
-          onChange={(e) => this.setState(this.setState({lastName: e.target.value }))}
+          onChange={(e) => this.setState(this.setState({ lastName: e.target.value }))}
         />
         <button onClick={this.handleSave}>Save</button>
       </div>
@@ -38,9 +46,9 @@ class AddContact extends Component {
   }
 };
 
-const createConact = gql`
+const createContact = gql`
   mutation addContact($firstName: String!, $lastName: String!) {
-    addContact ( firstname: $firstName, lastName: $lastName ){
+    addContact(firstName: $firstName, lastName: $lastName ) {
       id
       firstName
       lastName
@@ -48,6 +56,6 @@ const createConact = gql`
   }
 `;
 
-const AddContactsWithMutation = graphql(createConact)(AddContact);
+const AddContactsWithMutation = graphql(createContact)(AddContact);
 
 export default AddContactsWithMutation;
