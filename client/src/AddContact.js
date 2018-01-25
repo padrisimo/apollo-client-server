@@ -11,8 +11,17 @@ class AddContact extends Component {
 
   handleSave = ({ mutate }) => {
     const {firstName, lastName } = this.state;
+    const id = require('crypto').randomBytes(5).toString('hex');
     this.props.mutate({
-      variables: {firstName, lastName},
+      variables: {id, firstName, lastName},
+      optimisticResponse: {
+        addContact: {
+          id,
+          firstName,
+          lastName,
+          __typename: 'Contact'
+        }
+      },
       update: (store, { data: {addContact }}) => {
         const data = store.readQuery({ query: contactsListQuery });
         data.contacts.push(addContact);
@@ -47,8 +56,8 @@ class AddContact extends Component {
 };
 
 const createContact = gql`
-  mutation addContact($firstName: String!, $lastName: String!) {
-    addContact(firstName: $firstName, lastName: $lastName ) {
+  mutation addContact($id: String!, $firstName: String!, $lastName: String!) {
+    addContact(id: $id, firstName: $firstName, lastName: $lastName ) {
       id
       firstName
       lastName

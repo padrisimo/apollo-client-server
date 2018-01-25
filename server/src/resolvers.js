@@ -22,8 +22,7 @@ export const resolvers = {
     },
     Mutation: {
         addContact: (root, args) => {
-            const newId = require('crypto').randomBytes(5).toString('hex');
-            const newContact = { id: newId, firstName: args.firstName, lastName: args.lastName };
+            const newContact = { id: args.id, firstName: args.firstName, lastName: args.lastName };
             contacts.push(newContact);
             return newContact;
         }
