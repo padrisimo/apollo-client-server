@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import AddNote from './AddNote';
 
 const ContactHeader = ({ data: { loading, error, contact } }) => {
 
