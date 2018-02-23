@@ -7,7 +7,7 @@ class AddContact extends Component {
   state = {
     firstName: '',
     lastName: ''
-  };
+  }
 
   handleSave = ({ mutate }) => {
     const {firstName, lastName } = this.state;
@@ -19,8 +19,8 @@ class AddContact extends Component {
           id,
           firstName,
           lastName,
-          __typename: 'Contact'
-        }
+          __typename: 'Contact',
+        },
       },
       update: (store, { data: {addContact }}) => {
         const data = store.readQuery({ query: contactsListQuery });
@@ -36,24 +36,25 @@ class AddContact extends Component {
     });
   }
 
-  render() {
+  render () {
     return (
       <div>
         <input
           value={this.state.firstName}
-          placeholder='Fist name'
-          onChange={(e) => this.setState(this.setState({ firstName: e.target.value }))}
+          placeholder='First name'
+          onChange={(e) => this.setState({firstName: e.target.value})}
         />
         <input
           value={this.state.lastName}
           placeholder='Last name'
-          onChange={(e) => this.setState(this.setState({ lastName: e.target.value }))}
+          onChange={(e) => this.setState({lastName: e.target.value})}
         />
         <button onClick={this.handleSave}>Save</button>
       </div>
     )
   }
-};
+
+}
 
 const createContact = gql`
   mutation addContact($id: String!, $firstName: String!, $lastName: String!) {

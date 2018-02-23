@@ -4,48 +4,48 @@ const pubsub = new PubSub();
 
 const contacts = [
     {
-        id: 1,
+        id: '1',
         firstName: 'Peter',
         lastName: 'Parker',
         notes: [
-            { 
-                id: '1', 
+            {
+                id: '1',
                 details: 'he is hung out'
             },
-            { 
-                id: '2', 
+            {
+                id: '2',
                 details: 'spidy?'
-            } 
+            }
         ]
     },
     {
-        id: 2,
+        id: '2',
         firstName: 'Frank',
         lastName: 'Castle',
         notes: [
-            { 
-                id: '1', 
+            {
+                id: '1',
                 details: 'such an easy going guy'
             },
-            { 
-                id: '2', 
+            {
+                id: '2',
                 details: 'no hard feeling ;)'
-            } 
+            }
         ]
     },
     {
-        id: 3,
+        id: '3',
         firstName: 'Bruce',
         lastName: 'Banner',
         notes: [
-            { 
-                id: '1', 
+            {
+                id: '1',
                 details: 'is getting green'
             },
-            { 
-                id: '2', 
+            {
+                id: '2',
                 details: 'omg!!!!'
-            } 
+            }
         ]
     }
 ];
@@ -53,7 +53,7 @@ const contacts = [
 export const resolvers = {
     Query: {
         contacts: () => contacts,
-        contact: (root, id) => contacts.find(contact => contact.id === id)
+        contact: (root, { id }) => contacts.find(contact => contact.id === id)
     },
     Mutation: {
         addContact: (root, args) => {
@@ -63,8 +63,8 @@ export const resolvers = {
         },
         addNote: (root, { note }) => {
             const newId = require('crypto').randomBytes(5).toString('hex');
-            const contact =  contacts.find(contact => contact.id === note.contactId);
-            const newNote = { id: String(newId), details: note.details};
+            const contact = contacts.find(contact => contact.id === note.contactId);
+            const newNote = { id: String(newId), details: note.details };
             contact.notes.push(newNote);
             pubsub.publish('noteAdded', { noteAdded: newNote, contactId: note.contactId });
             return newNote;
@@ -72,7 +72,7 @@ export const resolvers = {
     },
     Subscription: {
         noteAdded: {
-            subscribe:withFilter(() => pubsub.asyncIterator('noteAdded'), (payload, variables) => {
+            subscribe: withFilter(() => pubsub.asyncIterator('noteAdded'), (payload, variables) => {
                 return payload.contactId === variables.contactId;
             })
         }

@@ -49,25 +49,23 @@ const client = new ApolloClient({
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
           <div className="App">
-            <header className="App-header">
-              <Link to="/">
-                <h2>CRM</h2>
-              </Link>
-            </header>
+            <div className="App-header">
+              <Link to="/"><h2>CRM</h2></Link>
+            </div>
             <AddContact />
             <Switch>
-              <Route path='/' component={Contacts}/>
-              <Route path='/contact/:contactId' component={ContactSingle}/>
+              <Route exact path="/" component={Contacts}/>
+              <Route path="/contact/:contactId" component={ContactSingle}/>
             </Switch>
-            <Contacts />
           </div>
-        </ApolloProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </ApolloProvider>
     );
   }
 }
+
 
 export default App;
