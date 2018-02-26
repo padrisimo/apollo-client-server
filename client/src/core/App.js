@@ -6,7 +6,6 @@ import { SubscriptionClient, } from 'subscriptions-transport-ws';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { HttpLink } from 'apollo-link-http';
 import { addGraphQLSubscriptions } from 'add-graphql-subscriptions';
-import './App.css';
 import Contacts from './Contacts';
 import AddContact from './AddContact';
 import ContactSingle from './ContactSingle';
@@ -51,16 +50,21 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <div className="App">
-            <div className="App-header">
-              <Link to="/"><h2>CRM</h2></Link>
+          <div>
+            <div className="navbar-fixed">
+              <nav className="teal darken-1">
+                <div className="nav-wrapper">
+                  <Link to="/" className="brand-logo center">Apollo CRM</Link>
+                </div>
+              </nav>
             </div>
-            <AddContact />
-            <Switch>
-              <Route exact path="/" component={Contacts}/>
-              <Route path="/contact/:contactId" component={ContactSingle}/>
-            </Switch>
+              <AddContact />
+              <Switch>
+                <Route exact path="/" component={Contacts}/>
+                <Route path="/contact/:contactId" component={ContactSingle}/>
+              </Switch>
           </div>
+
         </BrowserRouter>
       </ApolloProvider>
     );

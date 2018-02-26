@@ -38,18 +38,29 @@ class AddContact extends Component {
 
   render () {
     return (
-      <div>
-        <input
-          value={this.state.firstName}
-          placeholder='First name'
-          onChange={(e) => this.setState({firstName: e.target.value})}
-        />
-        <input
-          value={this.state.lastName}
-          placeholder='Last name'
-          onChange={(e) => this.setState({lastName: e.target.value})}
-        />
-        <button onClick={this.handleSave}>Save</button>
+      <div className="row add_contact">
+        <div className="col s5">
+          <input
+            value={this.state.firstName}
+            placeholder='First name'
+            onChange={(e) => this.setState({firstName: e.target.value})}
+          />
+        </div>
+        <div className="col s5">
+          <input
+            value={this.state.lastName}
+            placeholder='Last name'
+            onChange={(e) => this.setState({lastName: e.target.value})}
+          />
+        </div>
+        <div className="col s2">
+          <button 
+            onClick={this.handleSave}
+            className="btn waves-effect waves-light"
+            type="submit">
+            Add new
+          </button>
+        </div>
       </div>
     )
   }

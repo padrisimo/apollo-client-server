@@ -3,15 +3,15 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router';
 
-import { ContactSingleQuery } from './ContactSingle';
+import { contactSingleQuery } from './ContactSingle';
 
 const AddNote = ({ mutate, match }) => {
   const newId = Math.round(Math.random() * -1000000);
   const handleSubmit = event => {
-    if (event.keycode === 13) {
+    if (event.keyCode === 13) {
       mutate({
         variables: {
-          notes: {
+          note: {
             contactId: match.params.contactId,
             details: event.target.value
           }
@@ -25,7 +25,7 @@ const AddNote = ({ mutate, match }) => {
         },
         update: (store, { data: { addNote } }) => {
           const data = store.readQuery({
-            query: contactsListQuery,
+            query: contactSingleQuery,
             variables: {
               contactId: match.params.contactId
             }
@@ -35,7 +35,7 @@ const AddNote = ({ mutate, match }) => {
           }
 
           store.writeQuery({
-            query: contactsListQuery,
+            query: contactSingleQuery,
             variables: {
               contactId: match.params.contactId
             },
@@ -69,4 +69,6 @@ const AddNoteWithMutation = graphql(
   addNoteMutation,
 )(withRouter(AddNote))
 
-export default AddNote;
+
+
+export default AddNoteWithMutation;
