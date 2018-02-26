@@ -1,9 +1,11 @@
 import React from 'react';
 
-const Notelist = () => (
-    <div>
-        <h1>notelist</h1>
-    </div>
+const Notelist = ({ notes }) => (
+  <ul>
+    {notes.map(item => 
+      <li key={item.id}> > {item.details} </li>
+    )}
+  </ul>
 );
 
 export default Notelist;
